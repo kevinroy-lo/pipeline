@@ -2,14 +2,16 @@ package us.kunet.pipeline
 
 import kotlin.reflect.KClass
 
+typealias RegularRefinedStep<T, R> = RefinedStep<T, R, RegularExecution<T>>
+
 /**
- * Refined Step is a step that will only be stepped if the given target is of a specific type
+ * This is a step that will only be executed if the given target is of a specific type.
  */
 @Suppress("UNCHECKED_CAST")
 abstract class RefinedStep<T : Any, R : T, E : Execution<T>>(
     private val refined: KClass<R>,
-    vararg depends: KClass<out Step<T, E>>
-) : Step<T, E>(*depends) {
+    depends: List<KClass<out Step<T, E>>>
+) : Step<T, E>(depends) {
     final override suspend fun T.step(execution: E) {
         if (refined.isInstance(this)) (this as R).refinedStep(execution)
     }

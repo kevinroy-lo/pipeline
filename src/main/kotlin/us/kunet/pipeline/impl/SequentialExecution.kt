@@ -1,24 +1,30 @@
 package us.kunet.pipeline.impl
 
-import us.kunet.pipeline.Execution
 import us.kunet.pipeline.Pipeline
+import us.kunet.pipeline.RegularExecution
 import us.kunet.pipeline.Step
 import kotlin.reflect.KClass
 
+/**
+ * Represents an execution where the steps are run in order, one after the other.
+ */
 class SequentialExecution<T : Any>(
-    val target: T,
+    override val target: T,
     private val continueWithLeaks: Boolean,
-    private val steps: MutableList<Step<T, SequentialExecution<T>>>,
-    val pipeline: Pipeline<T>,
-    val runSteps: MutableList<Step<T, SequentialExecution<T>>> = mutableListOf(),
-    var done: Boolean = false
-) : Execution<T> {
+    private val steps: Iterable<Step<T, RegularExecution<T>>>,
+    override val pipeline: Pipeline<T>,
+) : RegularExecution<T> {
+    private val runSteps = mutableListOf<Step<T, RegularExecution<T>>>()
+
+    override var isDone = false
+
     override suspend fun run() {
-        if (done) return
+        if (isDone) return
         for (step in steps) {
-            if (done) return
+            if (isDone) return
             if (!step.run { target.shouldRun(this@SequentialExecution) }) continue
-            if (!step.depends.all { runSteps.hasStep(it) }) continue
+            if (!step.depends.all { runSteps.any(it::isInstance) }) continue
+
             try {
                 step.run { target.step(this@SequentialExecution) }
                 runSteps.add(step)
@@ -28,9 +34,6 @@ class SequentialExecution<T : Any>(
                 if (!continueWithLeaks) break
             }
         }
-        done = true
+        isDone = true
     }
-
-    private fun Collection<Step<T, SequentialExecution<T>>>.hasStep(stepType: KClass<out Step<T, SequentialExecution<T>>>) =
-        any(stepType::isInstance)
 }

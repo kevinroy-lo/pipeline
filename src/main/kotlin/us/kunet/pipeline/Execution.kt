@@ -1,12 +1,12 @@
 package us.kunet.pipeline
 
 /**
- * Execution represents a specific instance of a pipeline being "flowed"
- * @param T Target type
+ * This represents a specific instance of a pipeline being run.
+ * @param T the type of the target.
  */
 interface Execution<T : Any> {
     /**
-     * Run the execution
+     * Run the execution.
      */
     suspend fun run()
 }
