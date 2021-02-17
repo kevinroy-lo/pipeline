@@ -14,7 +14,7 @@ import us.kunet.pipeline.syncPipelineOf
 
 /*
 
-Briefing: You were contracted by a games company to program their latest hit game, PipelineWizard! The only things
+Briefing: You were contacted by a games company to program their latest hit game, PipelineWizard! The only things
 you were given were a brief game design document and a lecture to "use your creativity". PipelineWizard is a simple
 fighting game that takes place in a magical universe where everyone is a wizard!
 
