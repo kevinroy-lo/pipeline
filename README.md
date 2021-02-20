@@ -1,5 +1,5 @@
 # Pipeline
-[![Discord](https://img.shields.io/discord/701531356609511555.svg?logo=discord&label=)](https://discord.gg/bqkrsyxwAF)
+[![Discord](https://img.shields.io/discord/701531356609511555.svg?logo=discord&label=)](https://discord.gg/bqkrsyxwAF) [![Maven Version](https://mvnhelper.potatocorp.dev/otran-repo/us.kunet/pipeline/badge.png)](https://mvnhelper.potatocorp.dev/otran-repo/us.kunet/pipeline)
 
 Pipeline is a library for Kotlin that simplifies step-by-step
 processes into simplified "pipeline" objects.
