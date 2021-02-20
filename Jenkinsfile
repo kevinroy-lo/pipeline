@@ -7,7 +7,7 @@ pipeline {
             }
             post {
                 success {
-                   javadoc javadocDir: 'build/docs/dokkahtml', keepAll: true
+                   javadoc javadocDir: 'build/dokka/html', keepAll: true
                 }
             }
         }
